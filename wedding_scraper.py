@@ -9,16 +9,18 @@ class WeddingScraper:
     # Set unconfigurables.
     fp = webdriver.FirefoxProfile('/Users/andrewchen/Library/Application Support/Firefox/Profiles/4ax3g6ys.default')
     self.driver = webdriver.Firefox(fp)
-    self.url_template = 'https://www.dropbox.com/scl/fo/7buwlplni0ths389b2hwj/AADsTynZGSIAEce5P3_A4l8Wa/Jennifer%20%26%20Andrew%20(Kate)?dl=0&lst=&preview=A%26J{number}.cr2'
-    self.min = 17
-    self.max = 846
-#    self.max = 3
+    #self.url_template = 'https://www.dropbox.com/scl/fo/7buwlplni0ths389b2hwj/AADsTynZGSIAEce5P3_A4l8Wa/Jennifer%20%26%20Andrew%20(Kate)?dl=0&lst=&preview=A%26J{number}.cr2'
+    self.url_template = 'https://www.dropbox.com/scl/fo/7buwlplni0ths389b2hwj/AAAKIgBgKfRT9MiZi4yXOEyna/170527-jennifer%2Bandrew?dl=0&preview=170527-AL-{number}.cr2'
+    self.url_template2 = 'https://www.dropbox.com/scl/fo/7buwlplni0ths389b2hwj/AAAKIgBgKfRT9MiZi4yXOEyna/170527-jennifer%2Bandrew?dl=0&preview=170527-al-{number}.cr2'
+    self.min = 1
+    self.max = 1009
 
   def format_number(self, num):
     print 'format_number'
-    length = len(str(num))
-    num_zero = 4 - length
-    return '0' * num_zero + str(num)
+    return str(num)
+    #length = len(str(num))
+    #num_zero = 4 - length
+    #return '0' * num_zero + str(num)
 
   # https://www.dropbox.com/scl/fo/7buwlplni0ths389b2hwj/AADsTynZGSIAEce5P3_A4l8Wa/Jennifer%20%26%20Andrew%20(Kate)?dl=0&lst=&preview=A%26J0002.cr2
   def scrape(self):
@@ -53,15 +55,21 @@ class WeddingScraper:
       download_link = self.driver.find_elements_by_css_selector('#bubbleDropdownTarget-34')
     if len(download_link) < 1:
       download_link = self.driver.find_elements_by_css_selector('#bubbleDropdownTarget-32')
+    if len(download_link) <1:
+      return
     download_link[0].click()
 
   def click_directdownload_link(self):
     print "clicking direct download link..."
     directdownload_link = self.driver.find_elements_by_css_selector('.bubble-menu-item')
     if len(directdownload_link) < 1:
+      time.sleep(2.0)
       directdownload_link = self.driver.find_elements_by_css_selector('.bubble-menu-item')
     if len(directdownload_link) < 1:
+      time.sleep(2.0)
       directdownload_link = self.driver.find_elements_by_css_selector('.bubble-menu-item')
+    if len(directdownload_link) < 1:
+      return
     directdownload_link[0].click()
 
 print "Starting..."
